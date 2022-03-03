@@ -7,6 +7,7 @@ use craft\base\Field;
 use craft\events\ModelEvent;
 use craft\helpers\ElementHelper;
 use timkelty\craftcms\sitesync\Field as SiteSyncField;
+use timkelty\craftcms\sitesync\err;
 
 class Syncable extends \craft\base\Model
 {
@@ -49,18 +50,32 @@ class Syncable extends \craft\base\Model
             $element->propagating ||
             $event->isNew
         ) {
+            err::log(err::bool($element->isLocalized()), '## Syncable::beforeElementSaveHandler(): $element->isLocalized():');
+            err::log(err::bool($element->validate()), '## Syncable::beforeElementSaveHandler(): $element->validate():');
+            err::log(err::bool($element->propagating), '## Syncable::beforeElementSaveHandler(): $element->propagating:');
+            err::log(err::bool($event->isNew), '## Syncable::beforeElementSaveHandler(): $event->isNew:');
+            err::log($element, '## Syncable::beforeElementSaveHandler(): # skipping element #');
+
             return;
         }
 
+        err::log($event, '## Syncable::beforeElementSaveHandler(): $event');
+
         $syncable = self::findFieldData($element);
 
+        err::log($syncable, '## Syncable::beforeElementSaveHandler(): $syncable');
+
         if (!$syncable || !$syncable->enabled) {
+            err::log('Syncable::beforeElementSaveHandler(): return');
+
             return;
         }
 
         // Set element explicily here for when we get field data from an owner
         // element (Entry), but are syncing a child element (Matrix Block)
         $syncable->element = $element;
+
+        err::log($syncable, '##updated## Syncable::beforeElementSaveHandler(): $syncable');
 
         $syncable->propagateToSites();
     }
