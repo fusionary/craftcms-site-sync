@@ -50,23 +50,23 @@ class Syncable extends \craft\base\Model
             $element->propagating ||
             $event->isNew
         ) {
-            err::log(err::bool($element->isLocalized()), '## Syncable::beforeElementSaveHandler(): $element->isLocalized():');
-            err::log(err::bool($element->validate()), '## Syncable::beforeElementSaveHandler(): $element->validate():');
-            err::log(err::bool($element->propagating), '## Syncable::beforeElementSaveHandler(): $element->propagating:');
-            err::log(err::bool($event->isNew), '## Syncable::beforeElementSaveHandler(): $event->isNew:');
-            err::log($element, '## Syncable::beforeElementSaveHandler(): # skipping element #');
+            err::i()->log(err::bool($element->isLocalized()), '## Syncable::beforeElementSaveHandler(): $element->isLocalized():');
+            err::i()->log(err::bool($element->validate()), '## Syncable::beforeElementSaveHandler(): $element->validate():');
+            err::i()->log(err::bool($element->propagating), '## Syncable::beforeElementSaveHandler(): $element->propagating:');
+            err::i()->log(err::bool($event->isNew), '## Syncable::beforeElementSaveHandler(): $event->isNew:');
+            err::i()->log($element, '## Syncable::beforeElementSaveHandler(): # skipping element #');
 
             return;
         }
 
-        err::log($event, '## Syncable::beforeElementSaveHandler(): $event');
+        err::i()->log($event, '## Syncable::beforeElementSaveHandler(): $event');
 
         $syncable = self::findFieldData($element);
 
-        err::log($syncable, '## Syncable::beforeElementSaveHandler(): $syncable');
+        err::i()->log($syncable, '## Syncable::beforeElementSaveHandler(): $syncable');
 
         if (!$syncable || !$syncable->enabled) {
-            err::log('Syncable::beforeElementSaveHandler(): return');
+            err::i()->log('Syncable::beforeElementSaveHandler(): return');
 
             return;
         }
@@ -75,7 +75,7 @@ class Syncable extends \craft\base\Model
         // element (Entry), but are syncing a child element (Matrix Block)
         $syncable->element = $element;
 
-        err::log($syncable, '##updated## Syncable::beforeElementSaveHandler(): $syncable');
+        err::i()->log($syncable, '##updating## Syncable::beforeElementSaveHandler(): $syncable', true);
 
         $syncable->propagateToSites();
     }
