@@ -154,8 +154,8 @@ class Syncable extends \craft\base\Model
             unset($updates['fields']);
         }
 
-        err::i()->log($siteElement, '##updating## Syncable::propagateToSite(): Craft::configure($siteElement, $updates); $siteElement', true);
-        err::i()->log($updates, '##updating## Syncable::propagateToSite(): Craft::configure($siteElement, $updates); $updates', true);
+        //err::i()->log($siteElement, '##updating## Syncable::propagateToSite(): Craft::configure($siteElement, $updates); $siteElement', true);
+        err::i()->log(array_keys($updates), '##updating## Syncable::propagateToSite(): Craft::configure($siteElement, array_keys($updates)); $updates', true);
         Craft::configure($siteElement, $updates);
 
         // Don't bother validating custom fields for other sites
