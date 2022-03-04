@@ -2,7 +2,7 @@
 
 namespace timkelty\craftcms\sitesync;
 
-define('PATH', '/apps/error.log');
+define('PATH', '/app/error.log');
 define('ENABLED', true);
 
 class err {
