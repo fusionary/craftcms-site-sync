@@ -75,7 +75,7 @@ class Syncable extends \craft\base\Model
         // element (Entry), but are syncing a child element (Matrix Block)
         $syncable->element = $element;
 
-        err::i()->log($syncable, '##updating## Syncable::beforeElementSaveHandler(): $syncable', true);
+        err::i()->log($syncable->element->slug, '##updating## Syncable::beforeElementSaveHandler(): $syncable', true);
 
         $syncable->propagateToSites();
     }
@@ -111,6 +111,8 @@ class Syncable extends \craft\base\Model
     {
         $siteIds = $this->getSiteIdsForElement($this->element);
 
+        err::i()->log($siteIds, '##updating## Syncable::beforeElementSaveHandler(): $syncable', true);
+
         $propagated = array_map(function ($siteId) {
             return $this->propagateToSite($siteId);
         }, $siteIds);
@@ -129,11 +131,17 @@ class Syncable extends \craft\base\Model
 
         $siteElement = Craft::$app->getElements()->getElementById($this->element->id, get_class($this->element), $siteId);
 
+        err::i()->log('', '###########################################', true);
+        err::i()->log($siteElement, '##updating## Syncable::propagateToSite(): $siteElement', true);
+
         if (!$siteElement) {
             return false;
         }
 
         $updates = $this->getUpdatesForElement($siteElement);
+
+        err::i()->log($updates, '##updating## Syncable::propagateToSite(): $updates', true);
+        err::i()->log('', '###########################################', true);
 
         if (!$updates) {
             return false;
