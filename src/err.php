@@ -4,7 +4,7 @@ namespace timkelty\craftcms\sitesync;
 
 define('PATH', '/app/error.log');
 define('ENABLED', false);
-define('LIMIT', 40);
+define('LIMIT', 100);
 
 class err {
     private static $instance = null;

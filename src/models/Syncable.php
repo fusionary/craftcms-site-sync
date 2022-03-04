@@ -54,7 +54,7 @@ class Syncable extends \craft\base\Model
             err::i()->log(err::bool($element->validate()), '## Syncable::beforeElementSaveHandler(): $element->validate():');
             err::i()->log(err::bool($element->propagating), '## Syncable::beforeElementSaveHandler(): $element->propagating:');
             err::i()->log(err::bool($event->isNew), '## Syncable::beforeElementSaveHandler(): $event->isNew:');
-            err::i()->log($element, '## Syncable::beforeElementSaveHandler(): # skipping element #');
+            err::i()->log($element->slug, '## Syncable::beforeElementSaveHandler(): # skipping element->slug #');
 
             return;
         }
@@ -132,7 +132,7 @@ class Syncable extends \craft\base\Model
         $siteElement = Craft::$app->getElements()->getElementById($this->element->id, get_class($this->element), $siteId);
 
         err::i()->log('', '###########################################', true);
-        err::i()->log($siteElement, '##updating## Syncable::propagateToSite(): $siteElement', true);
+        err::i()->log($siteElement->slug, '##updating## Syncable::propagateToSite(): $siteElement->slug', true);
 
         if (!$siteElement) {
             return false;
@@ -140,7 +140,9 @@ class Syncable extends \craft\base\Model
 
         $updates = $this->getUpdatesForElement($siteElement);
 
-        err::i()->log($updates, '##updating## Syncable::propagateToSite(): $updates', true);
+        err::i()->log(array_keys($updates["fields"]), '##updating## Syncable::propagateToSite(): array_keys($updates["fields"]', true);
+        err::i()->log(array_keys($updates["title"]), '##updating## Syncable::propagateToSite(): array_keys($updates["title"]', true);
+        err::i()->log(array_keys($updates["slug"]), '##updating## Syncable::propagateToSite(): array_keys($updates["slug"]', true);
         err::i()->log('', '###########################################', true);
 
         if (!$updates) {
@@ -152,6 +154,8 @@ class Syncable extends \craft\base\Model
             unset($updates['fields']);
         }
 
+        err::i()->log($siteElement, '##updating## Syncable::propagateToSite(): Craft::configure($siteElement, $updates); $siteElement', true);
+        err::i()->log($updates, '##updating## Syncable::propagateToSite(): Craft::configure($siteElement, $updates); $updates', true);
         Craft::configure($siteElement, $updates);
 
         // Don't bother validating custom fields for other sites
