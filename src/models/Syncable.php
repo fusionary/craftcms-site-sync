@@ -141,8 +141,8 @@ class Syncable extends \craft\base\Model
         $updates = $this->getUpdatesForElement($siteElement);
 
         err::i()->log(array_keys($updates["fields"]), '##updating## Syncable::propagateToSite(): array_keys($updates["fields"]', true);
-        err::i()->log(array_keys($updates["title"]), '##updating## Syncable::propagateToSite(): array_keys($updates["title"]', true);
-        err::i()->log(array_keys($updates["slug"]), '##updating## Syncable::propagateToSite(): array_keys($updates["slug"]', true);
+        err::i()->log($updates["title"], '##updating## Syncable::propagateToSite(): array_keys($updates["title"]', true);
+        err::i()->log($updates["slug"], '##updating## Syncable::propagateToSite(): array_keys($updates["slug"]', true);
         err::i()->log('', '###########################################', true);
 
         if (!$updates) {
